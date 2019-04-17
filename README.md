@@ -1,7 +1,8 @@
 # DQN_Space_Invaders
 
 - [x] Install Ubuntu (done -> Ubuntu 18.04.2)
-- [ ] Try to run Atari Space Invaders with random actions
+- [x] Try to run Atari Space Invaders with random actions
+   * Played 100 games with maximum score 460 (for details see GIF)
 - [ ] Implement the DQN model architecture
 - [ ] Implement a ring buffer for memory optimization (almost done)
 - [ ] Putting it all together
