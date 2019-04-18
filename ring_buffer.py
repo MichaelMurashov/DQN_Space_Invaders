@@ -1,3 +1,6 @@
+import random
+
+
 class RingBuf:
     def __init__(self, size):
         self.data = [None] * (size + 1)
@@ -11,9 +14,11 @@ class RingBuf:
         if self.end == self.start:
             self.start = (self.start + 1) % len(self.data)
 
-    # TODO: implement random sample batch
     def sample_batch(self, num):
-        pass
+        batch = []
+        for i in random.sample(list(range(self.__len__())), k=num):
+            batch.append(self.__getitem__(i))
+        return batch
 
     def __getitem__(self, idx):
         return self.data[(self.start + idx) % len(self.data)]

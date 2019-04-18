@@ -4,7 +4,7 @@
 - [x] Try to run Atari Space Invaders with random actions
    * Played 100 games with maximum score 460 (for details see [GIF][1])
 - [x] Implement the DQN model architecture
-- [ ] Implement a ring buffer for memory optimization (almost done)
+- [x] Implement a ring buffer for memory optimization
 - [ ] Putting it all together
 - [ ] Train the network
 - [ ] Look on results
