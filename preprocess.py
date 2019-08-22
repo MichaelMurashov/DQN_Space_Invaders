@@ -18,7 +18,3 @@ def preprocess_state(state):
     for i in state:
         result.append(preprocess(i))
     return result
-
-
-def transform_reward(reward):
-    return np.sign(reward)
