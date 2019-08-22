@@ -5,8 +5,8 @@
    * Played 100 games with maximum score 460 (for details see [GIF][1])
 - [x] Implement the DQN model architecture
 - [x] Implement a ring buffer for memory optimization
-- [ ] Putting it all together
-- [ ] Train the network
+- [x] Putting it all together
+- [x] Train the network (training time about 20 hours, need more for some results)
 - [ ] Look on results
 - [ ] Train again
 - [ ] TRAIN MORE AND MORE
@@ -14,5 +14,8 @@
 - [ ] ?? Maybe it needs in some improvements ??
 - [ ] Create GIFs for illustration the network learning
 
+
+#Ошибки: не сделал sign для rewards, неправильный рандом для выбора экшена, немного не так реализовал
+#последовательность для обучения (подглядеть у deepmind, должно заработать быстрее)
 
 [1]: https://github.com/MichaelMurashov/DQN_Space_Invaders/blob/master/gifs/random_actions.gif
