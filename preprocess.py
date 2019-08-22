@@ -13,5 +13,12 @@ def preprocess(img):
     return to_grayscale(downsample(img))
 
 
+def preprocess_state(state):
+    result = []
+    for i in state:
+        result.append(preprocess(i))
+    return result
+
+
 def transform_reward(reward):
     return np.sign(reward)
