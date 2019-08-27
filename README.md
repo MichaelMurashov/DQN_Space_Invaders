@@ -15,8 +15,7 @@
 - [ ] Create GIFs for illustration the network learning
 
 ### TODO:
- - неправильный рандом для выбора экшена
  - немного не так реализовал последовательность для обучения (подглядеть у deepmind, должно заработать быстрее)
- - _encode_sample в ring buffer можно сделать параллельно
+ - переписать на tf 2.0
 
 [1]: https://github.com/MichaelMurashov/DQN_Space_Invaders/blob/master/gifs/random_actions.gif

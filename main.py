@@ -56,7 +56,7 @@ def q_iteration(env, model, target_model, curr_state, iter_num, memory):
 
 
 def main(mode, num):
-    if mode is 'random':
+    if mode == 'random':
 
         list_rewards = []
         for i in range(1):
@@ -77,7 +77,7 @@ def main(mode, num):
 
         print(max(list_rewards))
 
-    elif mode is 'train':
+    elif mode == 'train':
         model = atari_model(config.num_actions)
         target_model = load_model(f'checkpoints/0.h5', custom_objects={'huber_loss': huber_loss})
 
@@ -118,7 +118,8 @@ def main(mode, num):
                 model.save(f'checkpoints/{i}.h5')
                 target_model = load_model(f'checkpoints/{i}.h5', custom_objects={'huber_loss': huber_loss})
 
-    elif mode is 'test':
+    elif mode == 'test':
+        print(f'Runing test mode with model after {num} epochs')
         model = load_model(f'checkpoints/{num}.h5', custom_objects={'huber_loss': huber_loss})
 
         env = gym.make('SpaceInvaders-v4')
@@ -146,7 +147,10 @@ def main(mode, num):
 
         print(f'REWARD = {reward}')
 
+    else:
+        print('Error mode!')
 
 if __name__ == '__main__':
-    act = 'test'
-    main(act, 30000)
+    act = sys.argv[1]
+    num = sys.argv[2] if len(sys.argv) is 3 else -1
+    main(act, num)
