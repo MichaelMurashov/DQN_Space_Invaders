@@ -21,7 +21,8 @@ def get_epsilon_for_iteration(iter_num):
     elif iter_num > config.final_iteration_num:
         return config.final_epsilon
     else:
-        return -0.0168*(iter_num**2) + 3.0867*iter_num + 41.3745
+        # return -0.0168*(iter_num**2) + 3.0867*iter_num + 41.3745
+        return -0.0001*(iter_num) + 1.0001
 
 
 def q_iteration(env, model, target_model, curr_state, iter_num, memory):
@@ -37,7 +38,7 @@ def q_iteration(env, model, target_model, curr_state, iter_num, memory):
     new_state = []
     is_terminal = False
     reward = 0
-    # Play one game iteration (note: according to the next paper, you should actually play 4 times here)
+
     for i in range(config.num_frames):
         new_frame, new_reward, is_terminal, _ = env.step(action)
         reward += new_reward
@@ -82,10 +83,11 @@ def main(mode, num):
 
         env = gym.make('SpaceInvaders-v4')
 
-        memory = ReplayBuffer(config.num_iterations)
+        memory = ReplayBuffer(config.buffer_size)
 
-        rewards = []
+        rewards, game_times = [], []
 
+        start = time.time()
         for i in range(config.num_iterations):
             env.reset()
 
@@ -97,21 +99,24 @@ def main(mode, num):
 
             is_terminal = False
             reward = 0
-            start = time.time()
+            start_game = time.time()
             while not is_terminal:
                 state, is_terminal, new_reward = q_iteration(env, model, target_model, state, i, memory)
                 reward += new_reward
 
-            rewards.append(reward)
-            game_time = time.time() - start
-            if i % 10 == 0 and i is not 0:
-                print(f'time: {game_time}, mean reward: {np.mean(rewards)}')
+            game_times.append(np.float16(time.time()-start_game))
+            rewards.append(np.uint16(reward))
 
-            if i % 1000 == 0:
-                print(f'SCORE {reward}')
+            if i % 5 == 0 and i is not 0:
+                print(f'#{i} mean game time: {round(np.mean(game_times[-6:-1]), 2)}, mean reward: {round(np.mean(rewards[-6:-1]), 2)}')
+
+            if i % 500 == 0:
+                print('======== Save checkpoint ========')
+                print(f'Elapsed time {round(time.time()-start, 2)}s')
+                print(f'mean game time: {round(np.mean(game_times[-501:-1]), 2)}, mean reward: {round(np.mean(rewards[-501:-1]), 2)}')
+                print('=================================')
                 model.save(f'checkpoints/{i}.h5')
                 target_model = load_model(f'checkpoints/{i}.h5', custom_objects={'huber_loss': huber_loss})
-                # target_model = load_model(f'checkpoints/{i}.h5')
 
     elif mode is 'test':
         model = load_model(f'checkpoints/{num}.h5', custom_objects={'huber_loss': huber_loss})
@@ -132,10 +137,10 @@ def main(mode, num):
             action = choose_best_action(model, state)
             state = []
             for i in range(config.num_frames):
-                new_state, new_reward, is_done, _ = env.step(action)
+                new_frame, new_reward, is_done, _ = env.step(action)
                 env.render()
                 time.sleep(0.03)
-                state.append(new_state)
+                state.append(new_frame)
                 reward += new_reward
             state = preprocess_state(state)
 
@@ -144,4 +149,4 @@ def main(mode, num):
 
 if __name__ == '__main__':
     act = 'test'
-    main(act, 13000)
+    main(act, 30000)
